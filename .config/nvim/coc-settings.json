@@ -1,0 +1,44 @@
+{
+    "coc.preferences.formatOnSaveFiletypes":
+    [
+        "c",
+        "cpp",
+        "rust",
+        "html",
+        "css",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+
+    "semanticTokens.enable" : true,
+    "semanticTokens.filetypes" : ["c", "h", "cpp", "hpp", "rs"],
+
+    "languageserver": {
+        "haskell": {
+          "command": "haskell-language-server-wrapper",
+          "args": ["--lsp"],
+          "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+          "filetypes": ["hs", "lhs", "haskell", "lhaskell"]
+        },
+        "efm": {
+          "command": "efm-langserver",
+          "args": [],
+          "filetypes": ["markdown", "md"]
+        },
+        "tinymist": {
+            "command": "tinymist",
+            "args": [],
+            "filetypes": ["typst", "typ"]
+        }
+  },
+
+  "biome.enable": true,
+  "biome.requireConfiguration": true,
+
+  "snippets.ultisnips.pythonPrompt": false,
+
+  "clangd.arguments": ["--log", "verbose"],
+  "clangd.trace.server": "verbose"
+}
