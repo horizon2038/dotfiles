@@ -48,7 +48,7 @@ yabai -m config                                 \
 yabai -m rule --add app="^システム設定$" manage=off
 yabai -m rule --add app="^OBS$" manage=off
 
-yabai -m rule --add app="TourBox.*" manage=off
+yabai -m rule --add app="^TourBox.*$" manage=off
 
 yabai -m rule --add app="^Adobe (After Effects|Audition|Media Encoder)$" role="AXLayoutArea" subrole="AXFloatingWindow" manage=on
 yabai -m rule --add app="^Adobe Premiere Pro 2025$" role="AXLayoutArea" subrole="AXFloatingWindow" manage=on
