@@ -13,7 +13,7 @@ end
 config.window_background_opacity = 0.8
 config.text_background_opacity = 1
 -- default blur = 30
-config.macos_window_background_blur =  0
+config.macos_window_background_blur =  15
 config.window_padding = {
     left = 0,
     right = 0,

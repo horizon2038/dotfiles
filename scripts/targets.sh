@@ -7,4 +7,6 @@ TARGETS=(
     ".wezterm.lua"
     ".tmux.conf"
     ".config/nvim"
+    ".yabairc"
+    ".skhdrc"
 )

@@ -37,6 +37,7 @@ alias llvm-objdump='llvm-objdump -Mintel --demangle'
 alias cmakex='cmake -B build -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
 alias cmake-setup='cmake -B build -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
 alias ninja-setup='cmake -B build -G Ninja -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
+alias jpsearch='rg "[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]" -n'
 
 export PRG="$HOME/Documents/Program"
 export A9N="$PRG/A9N"
