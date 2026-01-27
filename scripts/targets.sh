@@ -9,4 +9,5 @@ TARGETS=(
     ".config/nvim"
     ".yabairc"
     ".skhdrc"
+    ".config/sketchybar"
 )

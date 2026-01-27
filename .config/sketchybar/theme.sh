@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# sketchybar color pattern : 0x<AA><RR><GG><BB> (8-bit * 4)
+
+# global 
+ITEM_IDR="$HOME/.config/sketchybar/items"
+PLUGIN_IDR="$HOME/.config/sketchybar/plugins"
+
+FONT="Hack Nerd Font:Bold:17.0"
+
+TRANSPARENT=0x00000000;
+
+# iceberg
+BASE=0xff282c43
+
+BLACK=0xff282c43
+STEEL_GRAY=0xff3e415c
+GRAY=0xff74778b
+WHITE=0xffc7c9d1
+PURPLE=0xffa091c9
+BLUE=0xff859ec8
+CYAN=0xff89b8c2
+GREEN=0xffb7c684
+ORANGE=0xffe2a675
+RED=0xffe27a79
+
+BLACK_ALPHA=0x40282c43
+STEEL_GRAY_ALPHA=0x403e415c
+GRAY_ALPHA=0x4074778b
+
+# shapes
+PADDING=4
+LABEL_PADDING=12
+ICON_PADDING=12
+
+CORNER_RADIUS=8
+BORDER_WIDTH=2
+
+POPUP_BORDER_RADIUS=2
+POPUP_CENTER_RADIUS=8
+
+SHADOW=on
+BLUR_RADIUS=30
