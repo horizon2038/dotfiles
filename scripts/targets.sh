@@ -8,6 +8,7 @@ COMMON_TARGETS=(
     ".wezterm.lua"
     ".tmux.conf"
     ".config/nvim"
+    ".clang-format"
 )
 
 MACOS_TARGETS=(
