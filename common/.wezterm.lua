@@ -13,7 +13,7 @@ end
 config.window_background_opacity = 0.8
 config.text_background_opacity = 1
 -- default blur = 30
-config.macos_window_background_blur =  15
+config.macos_window_background_blur = 5 
 config.window_padding = {
     left = 0,
     right = 0,
@@ -23,14 +23,32 @@ config.window_padding = {
 
 -- toggle opacity/blur callback
 
--- local toggle_opacity = wezterm.action_callback(function(window, pane)
---     local overrides = window:get_config_overrides() or {}
---     local effective = overrides.window_background_opacity or window::effective_config().window_background_opacity
---     local new_opacity = (effective == 0.6) and 0.8 or 0.6
---     overrides.window_background_opacity = new_opacity
---     window::set_config_overrides(overrides)
--- end)
+local opacity_presets = {
+    { opacity = 0.8, blur = 30 }, -- Coding Settings
+    { opacity = 0.5, blur =  5 }, -- Anime Settings
+}
 
+local current_index = 1
+
+config.keys = {
+    {
+        key = "0",
+        mods = "CTRL|SHIFT",
+        action = wezterm.action_callback(function(window,pane)
+            current_index = current_index + 1
+            if current_index > #opacity_presets then
+                current_index = 1
+            end
+
+            local preset = opacity_presets[current_index]
+            window:set_config_overrides(
+            {
+                window_background_opacity = preset.opacity,
+                macos_window_background_blur = preset.blur,
+            })
+        end),
+    },
+}
 
 --config.color_scheme = 'Catppuccin Frappe'
 config.color_scheme = 'iceberg-dark'

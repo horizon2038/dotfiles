@@ -133,7 +133,9 @@ return {
             vim.api.nvim_create_user_command('Mdpt', 'MarkdownPreviewToggle', {})
         end,
     },
-    
+    -- veryl
+    { 'veryl-lang/veryl.vim'},
+
     -----------------------------------------
     -- load when opening a file and inputting text
     -----------------------------------------

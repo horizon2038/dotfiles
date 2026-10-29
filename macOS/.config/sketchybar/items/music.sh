@@ -3,7 +3,7 @@
 music=(
 	script="$PLUGIN_DIR/music.sh"
 	# icon=􁁒
-	label="loading ..."
+    label="Yukiho HAGIWARA"
 	background.image=media.artwork
 	background.image.scale=0.8
 	background.image.corner_radius=8

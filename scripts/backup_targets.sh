@@ -1,62 +1,102 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")"; pwd)"
-DOTFILES_ROOT="$(cd "${SCRIPT_DIR}/.."; pwd)"
-
-source "${SCRIPT_DIR}/targets.sh"
+# shellcheck source=common.sh
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/common.sh"
 
 backup_targets()
 {
     local source_root="$1"
     local label="$2"
+    local dry_run="$3"
+    shift 3
 
-    if ! command -v rsync >/dev/null 2>&1
+    require_rsync
+    if [ ! -d "${source_root}" ]
     then
-        echo "rsync command not found. Please install rsync to use this backup script."
+        printf 'Backup source is not a directory: %s\n' "${source_root}" >&2
         return 1
     fi
+    case "${label}" in
+        ''|*[!a-zA-Z0-9_-]*)
+            echo 'Backup label must contain only letters, numbers, underscores, or hyphens.' >&2
+            return 1
+            ;;
+    esac
 
-    local timestamp
-    timestamp=$(date '+%Y%m%d-%H%M%S')
+    if [ "${dry_run}" = true ]
+    then
+        printf 'Dry run: backup skipped (%s, %s).\n' "${source_root}" "${label}"
+        return
+    fi
 
     local backup_root="${DOTFILES_ROOT}/backups"
-    local backup_dir="${backup_root}/backup-${label}-${timestamp}"
+    local backup_dir timestamp target
+    timestamp="$(date '+%Y%m%d-%H%M%S')"
+    mkdir -p "${backup_root}"
+    # A unique suffix prevents consecutive runs from merging snapshots.
+    backup_dir="$(mktemp -d "${backup_root}/backup-${label}-${timestamp}-XXXXXX")"
+    printf 'Backup destination: %s\n' "${backup_dir}"
 
-    mkdir -p "${backup_dir}"
-
-    # log
-    echo "Backup destination: ${backup_dir}"
-    echo "Backup source root: ${source_root}"
-    echo "Targets to backup:"
-    echo "Targets: ${#TARGETS[@]} item(s)"
-
-    # perform backup
-    local target
-    for target in "${TARGETS[@]}"
+    for target in "$@"
     do
-        local source_path="${source_root}/${target}"
-        if [ -e "${source_path}" ]
+        if path_exists "${source_root}/${target}"
         then
-            rsync -aR "${source_path}" "${backup_dir}/"
+            copy_target "${source_root}/${target}" "${backup_dir}/${target}" false -a
         else
-            echo " - ${source_path} does not exist. Skipping."
+            printf '  Missing, skipping: %s\n' "${source_root}/${target}"
         fi
     done
+    echo 'Backup completed.'
+}
 
-    echo "Backup completed."
+backup_usage()
+{
+    cat <<EOF
+Usage: ${0##*/} [options] <source_root> <label>
+
+Back up selected HOME paths, or grouped paths when source_root is this repo.
+
+  --os <OS>       macOS or Linux (default: detected OS)
+  --dry-run, -n   Show the plan without writing files or backups
+  --list          List selected paths without writing files
+  --help, -h      Show this help
+EOF
 }
 
 main()
 {
-    if [ "${1:-}" = "" ] || [ "${2:-}" = "" ]
+    parse_options "$@"
+    if [ "${SHOW_HELP}" = true ]
     then
-        echo "Usage: $0 <source_root> <label>" >&2
-        exit 1
+        backup_usage
+        return
+    fi
+    load_targets
+    if [ "${LIST_TARGETS}" = true ]
+    then
+        list_targets
+        return
+    fi
+    if [ "${#POSITIONAL_ARGS[@]}" -ne 2 ]
+    then
+        backup_usage >&2
+        return 1
+    fi
+    if [ "${#REPO_TARGETS[@]}" -eq 0 ]
+    then
+        printf 'No targets configured for %s.\n' "${SELECTED_OS}"
+        return
     fi
 
-    backup_targets "$1" "$2"
+    local source_root
+    source_root="$(cd "${POSITIONAL_ARGS[0]}" && pwd -P)"
+    if [ "${source_root}" -ef "${DOTFILES_ROOT}" ]
+    then
+        backup_targets "${source_root}" "${POSITIONAL_ARGS[1]}" "${DRY_RUN}" "${REPO_TARGETS[@]}"
+    else
+        backup_targets "${source_root}" "${POSITIONAL_ARGS[1]}" "${DRY_RUN}" "${HOME_TARGETS[@]}"
+    fi
 }
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]

@@ -17,8 +17,8 @@ source "$CONFIG_DIR/theme.sh"
 
 barconfig=(
     position=top
-    height=40
-    y_offset=20
+    height=45 # 40 + 5 (pad)
+    y_offset=0
     blur_radius=30
     color=$TRANSPARENT
 )
@@ -43,7 +43,7 @@ default=(
   label.padding_right=$LABEL_PADDING
   background.color="$TRANSPARENT"
   background.corner_radius=$CORNER_RADIUS
-  background.blur_radius=30
+  # background.blur_radius=30
   popup.background.color="$TRANSPARENT"
   popup.background.corner_radius="$CORNER_RADIUS"
 )

@@ -31,6 +31,11 @@
             "command": "tinymist",
             "args": [],
             "filetypes": ["typst", "typ"]
+        },
+        "veryl": {
+          "command": "veryl-ls",
+          "args": [],
+          "filetypes": ["veryl"]
         }
   },
 

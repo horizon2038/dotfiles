@@ -24,6 +24,10 @@ zle -N zle-keymap-select
 # PROMPT THEME (ORIGINAL)
 # PROMPT="%S%F{14}%n%f%s: %F{14}%c%f > "
 
+export PRG="$HOME/Documents/Program"
+export A9N="$PRG/A9N"
+export KOITO="$PRG/KOITO"
+
 # command alias
 alias ls="ls -laG"
 alias clear="printf '\33c\e[3J'"
@@ -38,10 +42,15 @@ alias cmakex='cmake -B build -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="cl
 alias cmake-setup='cmake -B build -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
 alias ninja-setup='cmake -B build -G Ninja -DCMAKE_C_COMPILER="clang" -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
 alias jpsearch='rg "[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]" -n'
+alias less="less -R"
+alias current="pwd | pbcopy"
+alias sbv="$PRG/binary-viewer/build/src/sbv"
+alias make="gmake"
+alias picocom="picocom --imap lfcrlf"
 
-export PRG="$HOME/Documents/Program"
-export A9N="$PRG/A9N"
-export KOITO="$PRG/KOITO"
+function change_title() {
+    command printf '\033]2;%s\033\\' "$@"
+}
 
 zle -N zle-keymap-select
 
@@ -73,3 +82,12 @@ source "$HOME/.rye/env"
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 alias sel4_container='make -C /<path>/<to>/seL4-CAmkES-L4v-dockerfiles user HOST_DIR=$(pwd)'
 alias sel4_container='make -C /<path>/<to>/seL4-CAmkES-L4v-dockerfiles user HOST_DIR=$(pwd)'
+
+# bun completions
+[ -s "/Users/horizon/.bun/_bun" ] && source "/Users/horizon/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+setopt interactivecomments
